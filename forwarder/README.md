@@ -1,2 +1,2 @@
 ## event-forwarder
-Run `mvn clean install && java -jar target/*.jar`
+Run `docker-compose up -d && mvn clean install && java -jar target/*.jar`

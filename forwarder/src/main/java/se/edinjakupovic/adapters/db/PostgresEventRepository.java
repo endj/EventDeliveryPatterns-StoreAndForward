@@ -1,5 +1,6 @@
 package se.edinjakupovic.adapters.db;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import se.edinjakupovic.core.EventResponse;
@@ -10,6 +11,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+@Slf4j
 public class PostgresEventRepository implements EventRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -20,13 +22,21 @@ public class PostgresEventRepository implements EventRepository {
 
     @Override
     public EventResponse save(Event event) {
-        int update = jdbcTemplate.update("""
-                INSERT INTO events(external_id, data, created_at)
-                VALUES(:id, :data, now())
-                ON CONFLICT DO NOTHING
-                """, Map.of("id", event.getId().toString(),
-                "data", event.getData()));
-        return new EventResponse(update == 1);
+        try {
+
+            int update = jdbcTemplate.update("""
+                    INSERT INTO events(external_id, data, created_at)
+                    VALUES(:id, :data, now())
+                    ON CONFLICT DO NOTHING
+                    """, Map.of("id", event.getId().toString(),
+                    "data", event.getData()));
+            if (update == 1)
+                log.info("Persisted event {}", event);
+            return new EventResponse(update == 1);
+        } catch (Exception e) {
+            log.warn("Got exception while saving {}", event);
+            return new EventResponse(false);
+        }
     }
 
     @Transactional

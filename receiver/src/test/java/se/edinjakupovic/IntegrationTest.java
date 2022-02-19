@@ -1,5 +1,7 @@
 package se.edinjakupovic;
 
+import se.edinjakupovic.core.Event;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,19 +13,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
+import java.util.UUID;
+
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class IntegrationTest {
-
-    // TODO replace types with values
-    String request = """
-           {
-  "id":"UUID",
-  "data":"String"
-}
-
-
-            """;
 
     @LocalServerPort
     private int port;
@@ -36,11 +30,12 @@ class IntegrationTest {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        HttpEntity<String> entity = new HttpEntity<>(request, headers);
+        var event = new Event("some data", UUID.randomUUID());
+        var entity = new HttpEntity<Event>(event, headers);
 
-        ResponseEntity<String> result = this.restTemplate.postForEntity(
+        ResponseEntity<Event> result = this.restTemplate.postForEntity(
                 "http://localhost:%d/event-receiver/event".formatted(port)
-                , entity, String.class);
+                , entity, Event.class);
 
         Assertions.assertThat(result.getStatusCode().is2xxSuccessful()).isTrue();
     }

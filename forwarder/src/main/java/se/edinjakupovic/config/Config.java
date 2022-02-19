@@ -30,6 +30,7 @@ public class Config {
     }
 
     @Bean
+    @ConditionalOnProperty("scheduling.enabled")
     public EventReporter scheduledEventReporter(EventRepository eventRepository,
                                                 @Value("${receiver.host}") String host,
                                                 @Value("${receiver.port}") int port,
