@@ -1,4 +1,2 @@
-# Script for generating a Spring Web App based on JSON model
-
-
-Run `./generate-project.sh -h` for instructions
+## event-forwarder
+Run `mvn clean install && java -jar target/*.jar`
