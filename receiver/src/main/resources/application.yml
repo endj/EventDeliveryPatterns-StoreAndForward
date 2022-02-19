@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: event-receiver
+server:
+  port: 8081

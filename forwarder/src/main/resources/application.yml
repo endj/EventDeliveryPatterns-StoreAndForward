@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: forwarder
+  datasource:
+    url: ${PSQL_URL:jdbc:postgresql://localhost:5432/}
+    username: postgres
+    password:
+
+scheduling:
+  enabled: ${SCHEDULING_ENABLED:true}
+
+receiver:
+  host: ${RECEIVER_HOST:http://localhost}
+  port: ${RECEIVER_PORT:8081}
+  uripath: ${RECEIVER_URI_PATH:/event-receiver/event}

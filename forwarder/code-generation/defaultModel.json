@@ -1,0 +1,17 @@
+{
+  "apple": "String",
+  "somenumbers": [
+    "String"
+  ],
+  "abc": [
+    {
+      "aa": "String",
+      "bb": "String"
+    }
+  ],
+  "nested": {
+    "verynested": {
+      "cool": "String"
+    }
+  }
+}
