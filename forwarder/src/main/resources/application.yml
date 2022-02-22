@@ -5,11 +5,12 @@ spring:
     url: ${PSQL_URL:jdbc:postgresql://localhost:5432/}
     username: postgres
     password:
+    hikari:
+      maximum-pool-size: 30
 
 scheduling:
   enabled: ${SCHEDULING_ENABLED:true}
 
 receiver:
-  host: ${RECEIVER_HOST:http://localhost}
-  port: ${RECEIVER_PORT:8081}
+  baseurl: ${RECEIVER_BASE_URL:http://localhost:8081}
   uripath: ${RECEIVER_URI_PATH:/event-receiver/event}

@@ -1,15 +1,18 @@
 package se.edinjakupovic.adapters.api;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import se.edinjakupovic.core.Event;
 import se.edinjakupovic.core.EventResponse;
 import se.edinjakupovic.core.ports.EventService;
-import se.edinjakupovic.core.Event;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RequestMapping("/forwarder/event")
 @RestController
-public class EventController  {
+public class EventController {
 
     private final EventService eventService;
 

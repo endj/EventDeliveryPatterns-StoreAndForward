@@ -7,7 +7,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableAsync
 @SpringBootApplication
@@ -21,18 +20,19 @@ public class ForwarderApplication implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         template.execute("""
                 CREATE TABLE IF NOT EXISTS events (
                     id serial PRIMARY KEY,
-                    external_id text,
-                    data text,
+                    external_id text NOT NULL,
+                    data text NOT NULL,
                     created_at timestamp,
                     processing_at timestamp,
                     processed_at timestamp,
-                    failed_at timestamp
+                    failed_at timestamp,
+                    attempts integer DEFAULT 0
                 );
-                
+                                
                 CREATE UNIQUE INDEX IF NOT EXISTS event_unique on events(data);
                 """);
     }
